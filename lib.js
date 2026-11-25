@@ -58,7 +58,7 @@
       return Math.round((util.parseISO(to) - util.parseISO(from)) / 86400000);
     },
     datefmt(value) {
-      if (!value) return "—";
+      if (!value) return "None";
       const date = util.parseISO(value);
       if (Number.isNaN(date.getTime())) return String(value);
       return date.toLocaleDateString("en-US", {
@@ -471,13 +471,13 @@
         return {
           id: l.id, copy_id: l.copy_id, member_id: l.member_id,
           borrowed_on: l.borrowed_on, due_on: l.due_on,
-          member_name: member ? member.name : "—",
-          course: member ? member.course : "—",
+          member_name: member ? member.name : "None",
+          course: member ? member.course : "None",
           book_id: book ? book.id : null,
-          title: book ? book.title : "—",
-          author: book ? book.author : "—",
-          category: book ? book.category : "—",
-          accession_no: copy ? copy.accession_no : "—",
+          title: book ? book.title : "None",
+          author: book ? book.author : "None",
+          category: book ? book.category : "None",
+          accession_no: copy ? copy.accession_no : "None",
           days_late: late(l),
         };
       }).slice(0, limit == null ? undefined : limit);
@@ -492,8 +492,8 @@
           const book = copy && data.book(copy.book_id);
           return {
             id: l.id, borrowed_on: l.borrowed_on, due_on: l.due_on, returned_on: l.returned_on,
-            title: book ? book.title : "—", author: book ? book.author : "—",
-            accession_no: copy ? copy.accession_no : "—",
+            title: book ? book.title : "None", author: book ? book.author : "None",
+            accession_no: copy ? copy.accession_no : "None",
           };
         });
     },

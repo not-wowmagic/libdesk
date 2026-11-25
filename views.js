@@ -95,7 +95,7 @@
       ${opts.content}
       <footer class="app-footer">
         <span>${e(settings.library_name)} · ${e(settings.academic_year)} · ${e(settings.semester)}</span>
-        <span>LibDesk 2.0 — browser version · discrete mathematics final project</span>
+        <span>LibDesk 2.0, browser version, discrete mathematics final project</span>
       </footer>
     </main>
   </div>
@@ -127,7 +127,7 @@
       <div class="auth-copy">
         <p class="auth-kicker">Everything in one desk</p>
         <h1>Run the library<br>without the paperwork.</h1>
-        <p class="auth-tagline">Catalog, members, circulation, and reports — connected to the same live records, ready when the doors open.</p>
+        <p class="auth-tagline">Catalog, members, circulation, and reports all use the same live records.</p>
       </div>
       <ul class="auth-points">
         <li>${icon("book")}<span>Search the catalog and see available copies instantly</span></li>
@@ -327,7 +327,7 @@
 <div class="stat-grid three">
   <article class="stat-card"><div class="stat-top"><span class="stat-icon navy">${icon("clock")}</span><span class="stat-badge">THIS WEEK</span></div><p class="stat-label">Due soon</p><p class="stat-value">${stats.due_soon}</p><p class="stat-foot">Return within the next three days</p></article>
   <article class="stat-card"><div class="stat-top"><span class="stat-icon red">${icon("alert")}</span><span class="stat-badge ${stats.overdue ? "danger" : ""}">CHECK</span></div><p class="stat-label">Overdue</p><p class="stat-value">${stats.overdue}</p><p class="stat-foot">Items already past their due date</p></article>
-  <article class="stat-card"><div class="stat-top"><span class="stat-icon green">${icon("book")}</span><span class="stat-badge">LIFETIME</span></div><p class="stat-label">Books borrowed</p><p class="stat-value">${stats.total_loans}</p><p class="stat-foot">${stats.books_read} different titles read</p></article>
+  <article class="stat-card"><div class="stat-top"><span class="stat-icon green">${icon("book")}</span><span class="stat-badge">LIFETIME</span></div><p class="stat-label">Books borrowed</p><p class="stat-value">${stats.total_loans}</p><p class="stat-foot">${util.plural(stats.books_read, "different title")} read</p></article>
 </div>
 
 <div class="dashboard-grid">
@@ -454,7 +454,7 @@ ${isLib ? `<dialog class="dialog" id="add-book-dialog" aria-labelledby="add-book
   </section>
   <aside class="stack">
     <section class="card">
-      <div class="card-head"><div><h2>Availability</h2><p>Live copy status, not a stored counter.</p></div><span class="badge navy">${book.available}/${book.owned}</span></div>
+      <div class="card-head"><div><h2>Availability</h2><p>Shows which copies are free right now.</p></div><span class="badge navy">${book.available}/${book.owned}</span></div>
       <div class="set-line" aria-label="Availability calculation"><span>${detail.owned_labels.length} owned</span><span class="set-op">−</span><span>${detail.on_loan_labels.length} on loan</span><span class="set-op">=</span><strong>${detail.available_labels.length} available</strong></div>
       <div class="copy-groups">
         <div><h3 class="minor-title">On the shelf</h3><div class="chip-row">${detail.available_labels.length ? detail.available_labels.map((label) => `<span class="chip green mono">${e(label)}</span>`).join("") : `<span class="muted small">No copies free</span>`}</div></div>
@@ -467,7 +467,7 @@ ${isLib ? `<dialog class="dialog" id="add-book-dialog" aria-labelledby="add-book
 
 <section class="table-card">
   <header class="table-card-head"><div><h2>Copies</h2><p>Every physical copy and its current borrower.</p></div><span class="count-pill">${copies.length}</span></header>
-  <div class="table-wrap"><table class="data-table"><thead><tr><th>Accession</th><th>Status</th><th>Borrower</th><th>Due</th><th class="actions-col"></th></tr></thead><tbody>${copies.map((copy) => `<tr><td class="mono">${e(copy.accession_no)}</td><td>${copy.status === "available" ? `<span class="badge green">Available</span>` : `<span class="badge amber">On loan</span>`}</td><td>${e(copy.borrower || "—")}</td><td class="nowrap">${copy.due_on ? `${util.datefmt(copy.due_on)} ${loanBadge(copy.days_late)}` : "—"}</td><td>${isLib && copy.status === "available" ? `<a class="btn small secondary" href="${link("/circulation?copy=" + copy.id)}">Issue</a>` : ""}</td></tr>`).join("")}</tbody></table></div>
+  <div class="table-wrap"><table class="data-table"><thead><tr><th>Accession</th><th>Status</th><th>Borrower</th><th>Due</th><th class="actions-col"></th></tr></thead><tbody>${copies.map((copy) => `<tr><td class="mono">${e(copy.accession_no)}</td><td>${copy.status === "available" ? `<span class="badge green">Available</span>` : `<span class="badge amber">On loan</span>`}</td><td>${e(copy.borrower || "None")}</td><td class="nowrap">${copy.due_on ? `${util.datefmt(copy.due_on)} ${loanBadge(copy.days_late)}` : "None"}</td><td>${isLib && copy.status === "available" ? `<a class="btn small secondary" href="${link("/circulation?copy=" + copy.id)}">Issue</a>` : ""}</td></tr>`).join("")}</tbody></table></div>
 </section>
 
 <div class="dashboard-grid two">
@@ -477,7 +477,7 @@ ${isLib ? `<dialog class="dialog" id="add-book-dialog" aria-labelledby="add-book
   </section>
   <section class="table-card">
     <header class="table-card-head"><div><h2>Loan history</h2><p>The latest ten records for this title.</p></div></header>
-    ${history.length ? `<div class="table-wrap"><table class="data-table compact"><thead><tr><th>Member</th><th>Copy</th><th>Borrowed</th><th>Returned</th></tr></thead><tbody>${history.map((row) => `<tr><td>${e(row.member_name)}</td><td class="mono">${e(row.accession_no)}</td><td class="nowrap">${util.datefmt(row.borrowed_on)}</td><td class="nowrap">${util.datefmt(row.returned_on)}</td></tr>`).join("")}</tbody></table></div>` : `<div class="mini-empty">${icon("clock")}<p>No loan records yet.</p></div>`}
+    ${history.length ? `<div class="table-wrap"><table class="data-table compact"><thead><tr><th>Member</th><th>Copy</th><th>Borrowed</th><th>Returned</th></tr></thead><tbody>${history.map((row) => `<tr><td>${e(row.member_name)}</td><td class="mono">${e(row.accession_no)}</td><td class="nowrap">${util.datefmt(row.borrowed_on)}</td><td class="nowrap">${row.returned_on ? util.datefmt(row.returned_on) : "Not returned"}</td></tr>`).join("")}</tbody></table></div>` : `<div class="mini-empty">${icon("clock")}<p>No loan records yet.</p></div>`}
   </section>
 </div>`;
     return views.shell({ title: book.title, breadcrumb: "Catalog / " + book.title, active: "catalog", content });
@@ -687,7 +687,7 @@ ${isLib ? `<dialog class="dialog" id="add-book-dialog" aria-labelledby="add-book
     const prop = (name, label, description, pass, extra) => `<div class="property"><span class="prop-icon ${pass ? "pass" : "fail"}">${icon(pass ? "check" : "x")}</span><div><strong>${label}</strong><span>${description}</span>${extra || ""}</div><span class="badge ${pass ? "green" : "red"}">${pass ? "Pass" : "Fail"}</span></div>`;
 
     const content = `<div class="page-head">
-  <div><p class="eyebrow">Live analytics</p><h1>Insights</h1><p class="page-sub">The same transactions that run the desk, read back as collection signals.</p></div>
+  <div><p class="eyebrow">Live analytics</p><h1>Insights</h1><p class="page-sub">Borrowing records from the desk, shown as collection signals.</p></div>
   <div class="page-actions"><a class="btn secondary" href="${link("/reports")}">${icon("report")} Open reports</a></div>
 </div>
 
@@ -745,7 +745,7 @@ ${isLib ? `<dialog class="dialog" id="add-book-dialog" aria-labelledby="add-book
       <p class="author-stat"><strong>${closure.author_count}</strong> authors in the catalog</p>
       <p class="author-stat"><strong>${closure.original_ones}</strong> direct co-borrow links</p>
       <p class="author-stat"><strong>${closure.closure_ones}</strong> links after transitive closure</p>
-      <p class="form-note">Transitive closure adds pairs connected by a chain, which is how the catalog surfaces related authors it would otherwise miss.</p>
+      <p class="form-note">Transitive closure adds pairs connected by a chain, including authors with no direct co-borrow link.</p>
     </div><div class="author-links">${closure.new_pairs.slice(0, 8).map((pair) => `<span class="chip navy">${e(pair.a)} ↔ ${e(pair.b)}</span>`).join("") || `<span class="muted small">No new author links.</span>`}</div></div>
   </section>
 </div>`;
@@ -763,7 +763,7 @@ ${isLib ? `<dialog class="dialog" id="add-book-dialog" aria-labelledby="add-book
 <div class="report-stack">${reports.map((report) => `<section class="table-card report-card">
   <header class="table-card-head"><div><div class="report-title-row"><span class="report-number">${report.number}</span><h2>${e(report.title)}</h2><span class="badge navy">${report.row_count} ${report.row_count === 1 ? "row" : "rows"}</span></div><p>${e(report.note)}</p></div><div class="report-actions print-hide"><button class="btn small secondary" type="button" data-action="export-csv" data-report="${report.number}">${icon("download")} CSV</button></div></header>
   ${report.summary_rows.length ? `<div class="summary-strip">${report.summary_rows.map((row) => `${Object.entries(row).map(([key, value]) => `<span class="summary-pill"><small>${e(report.summary_labels && report.summary_labels[key] ? report.summary_labels[key] : key)}</small><strong>${value == null ? 0 : value}</strong></span>`).join("")}${report.number === "03" ? `<span class="summary-pill"><small>Estimated fines</small><strong>${util.money(row.total_days_late * fine)}</strong></span>` : ""}`).join("")}</div>` : ""}
-  ${report.rows.length ? `<div class="table-wrap"><table class="data-table report-table"><thead><tr>${report.columns.map((col) => `<th>${e(col.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()))}</th>`).join("")}</tr></thead><tbody>${report.rows.map((row) => `<tr>${report.columns.map((col) => `<td class="${["book_id", "loan_id", "member_id"].includes(col) ? "mono" : ""}">${e(row[col] == null ? "—" : row[col])}</td>`).join("")}</tr>`).join("")}</tbody></table></div>` : emptyState("check", "No rows for this report", "The current data does not trigger this view.")}
+  ${report.rows.length ? `<div class="table-wrap"><table class="data-table report-table"><thead><tr>${report.columns.map((col) => `<th>${e(col.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()))}</th>`).join("")}</tr></thead><tbody>${report.rows.map((row) => `<tr>${report.columns.map((col) => `<td class="${["book_id", "loan_id", "member_id"].includes(col) ? "mono" : ""}">${e(row[col] == null ? "None" : row[col])}</td>`).join("")}</tr>`).join("")}</tbody></table></div>` : emptyState("check", "No rows for this report", "The current data does not trigger this view.")}
   <details class="sql-box print-hide"><summary>${icon("report")} View SQL query</summary><pre><code>${e(report.sql)}</code></pre></details>
 </section>`).join("")}</div>`;
     return views.shell({ title: "Reports", breadcrumb: "Reports", active: "reports", content });

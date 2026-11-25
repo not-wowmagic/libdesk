@@ -183,7 +183,7 @@ LIMIT 10;`;
       number: "05", title: "Full loan ledger",
       requirement: "Multi-table JOIN",
       note: "Loans joined across copies, titles, and members.",
-      sql: BONUS_JOIN_SQL, badge: "Bonus — not yet covered in lecture", summary_labels: null, compute: ledger,
+      sql: BONUS_JOIN_SQL, badge: "Bonus, not yet covered in lecture", summary_labels: null, compute: ledger,
     },
   ];
 
