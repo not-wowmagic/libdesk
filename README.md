@@ -5,7 +5,7 @@ product as the original Python/Flask + SQLite app, rebuilt as a static site:
 no server, no database, no installs, no network calls. Everything runs in the
 tab and the demo data is rebuilt from a snapshot on every reload.
 
-Live demo: *(added after the Vercel deployment)*
+Live demo: <https://libdesk-iota.vercel.app>
 
 ## Sign in
 
