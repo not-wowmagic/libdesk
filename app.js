@@ -39,7 +39,12 @@
 
   function expose(html) {
     const doc = new DOMParser().parseFromString(html, "text/html");
-    document.documentElement.innerHTML = doc.documentElement.innerHTML;
+    // Only swap the body. Replacing <html> also replaces the stylesheet link,
+    // which makes the page flash unstyled (default purple links) on every tab
+    // change while the browser re-applies CSS.
+    document.body.innerHTML = doc.body.innerHTML;
+    document.body.className = doc.body.className || "";
+    document.title = doc.title;
     flushToasts();
   }
 
