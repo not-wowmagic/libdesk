@@ -1,1 +1,4 @@
 .vercel
+anti-slop/
+.playwright-mcp/
+*.log
